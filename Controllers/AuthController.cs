@@ -107,7 +107,7 @@ public class AuthController : ControllerBase
                 Id = profile.Id,
                 Name = profile.Name,
                 Location = profile.Location,
-                IdentityUserId = identityUserId,
+                IdentityUserId = profile.IdentityUserId,
                 UserName = User.FindFirstValue(ClaimTypes.Name),
                 Email = User.FindFirstValue(ClaimTypes.Email),
                 Roles = roles
@@ -139,6 +139,7 @@ public class AuthController : ControllerBase
                 Name = registration.Name,
                 Location = registration.Location,
                 IdentityUserId = user.Id,
+                IndustryId = registration.IndustryId
             });
             _dbContext.SaveChanges();
 

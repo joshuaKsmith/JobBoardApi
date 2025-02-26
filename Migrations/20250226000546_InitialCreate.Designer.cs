@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobBoardApi.Migrations
 {
     [DbContext(typeof(JobBoardApiDbContext))]
-    [Migration("20250225234259_InitialCreate")]
+    [Migration("20250226000546_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -145,33 +145,33 @@ namespace JobBoardApi.Migrations
                         new
                         {
                             Id = 1,
-                            ClosesDate = new DateTime(2025, 3, 17, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3957),
+                            ClosesDate = new DateTime(2025, 3, 17, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4145),
                             Description = "Experienced developer for complex web applications",
-                            PostedDate = new DateTime(2025, 2, 15, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3900),
+                            PostedDate = new DateTime(2025, 2, 15, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4100),
                             Title = "Senior Software Developer"
                         },
                         new
                         {
                             Id = 2,
-                            ClosesDate = new DateTime(2025, 3, 12, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3961),
+                            ClosesDate = new DateTime(2025, 3, 12, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4149),
                             Description = "Skilled nurse for patient care and support",
-                            PostedDate = new DateTime(2025, 2, 10, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3960),
+                            PostedDate = new DateTime(2025, 2, 10, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4148),
                             Title = "Registered Nurse"
                         },
                         new
                         {
                             Id = 3,
-                            ClosesDate = new DateTime(2025, 3, 20, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3964),
+                            ClosesDate = new DateTime(2025, 3, 20, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4152),
                             Description = "Analyze financial data and prepare reports",
-                            PostedDate = new DateTime(2025, 2, 18, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3963),
+                            PostedDate = new DateTime(2025, 2, 18, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4151),
                             Title = "Financial Analyst"
                         },
                         new
                         {
                             Id = 4,
-                            ClosesDate = new DateTime(2025, 3, 22, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3967),
+                            ClosesDate = new DateTime(2025, 3, 22, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4155),
                             Description = "Entry-level developer for website maintenance",
-                            PostedDate = new DateTime(2025, 2, 20, 17, 42, 59, 307, DateTimeKind.Local).AddTicks(3966),
+                            PostedDate = new DateTime(2025, 2, 20, 18, 5, 46, 60, DateTimeKind.Local).AddTicks(4154),
                             Title = "Junior Web Developer"
                         });
                 });
@@ -343,13 +343,13 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b5a9405-e876-4a7d-b786-f1299f27bc79",
+                            ConcurrencyStamp = "0ca86768-b437-4f5f-976b-1bcbfd5d118c",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEJq1YVpjmzfCcmiU8jOzMRnu3Llbp0RX9DLA1cYg48/2S52reke8RAqf7p+C6n3R1Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC+bo9oy6FC4VQMqRUyVbOJ5JZLg8L3z1h9nTwcVKNt9jgDf5KnVVjUB9IByMeJjJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a35b4650-c673-4090-acc4-b02927e913c3",
+                            SecurityStamp = "bb9a983f-a1e2-4b98-9ce6-95a6f6740b2b",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });

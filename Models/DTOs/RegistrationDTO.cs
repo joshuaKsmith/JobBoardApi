@@ -7,4 +7,5 @@ public class RegistrationDTO
     public string UserName { get; set; }
     public string Name { get; set; }
     public string Location { get; set; }
+    public int IndustryId { get; set; }
 }
