@@ -105,10 +105,9 @@ public class AuthController : ControllerBase
             var userDto = new UserProfileDTO
             {
                 Id = profile.Id,
-                FirstName = profile.FirstName,
-                LastName = profile.LastName,
-                Address = profile.Address,
-                IdentityUserId = identityUserId,
+                Name = profile.Name,
+                Location = profile.Location,
+                IdentityUserId = profile.IdentityUserId,
                 UserName = User.FindFirstValue(ClaimTypes.Name),
                 Email = User.FindFirstValue(ClaimTypes.Email),
                 Roles = roles
@@ -137,10 +136,10 @@ public class AuthController : ControllerBase
         {
             _dbContext.UserProfiles.Add(new UserProfile
             {
-                FirstName = registration.FirstName,
-                LastName = registration.LastName,
-                Address = registration.Address,
+                Name = registration.Name,
+                Location = registration.Location,
                 IdentityUserId = user.Id,
+                IndustryId = registration.IndustryId
             });
             _dbContext.SaveChanges();
 
