@@ -14,9 +14,4 @@ INDUSTRY
 ------------------
 Get all Industries
 => method `GET` `"/api/industry"`
-    {
-      [
-        { "id": 1, "name": "Technology" },
-        { "id": 2, "name": "Retail" }
-      ],   
-    }
+![Screenshot 2025-02-27 163226](https://github.com/user-attachments/assets/49b29afd-d69f-43f4-8882-db52ba4a6d32)
