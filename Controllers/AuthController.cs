@@ -118,6 +118,30 @@ public class AuthController : ControllerBase
         return NotFound();
     }
 
+    [HttpGet("applicant")]
+    [Authorize]
+    public IActionResult Applicant()
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var profile = _dbContext.Applicants.SingleOrDefault(a => a.IdentityUserId == identityUserId);
+        if (profile != null)
+        {
+            var applicantDto = new ApplicantDTO
+            {
+                Id = profile.Id,
+                FirstName = profile.FirstName,
+                LastName = profile.LastName,
+                Address = profile.Address,
+                IdentityUserId = profile.IdentityUserId,
+                UserName = User.FindFirstValue(ClaimTypes.Name),
+                Email = User.FindFirstValue(ClaimTypes.Email)
+            };
+
+            return Ok(applicantDto);
+        }
+        return NotFound();
+    }
+
     [HttpPost("registerapplicant")]
     public async Task<IActionResult> RegisterApplicant(ApplicantRegistrationDTO registration)
     {
