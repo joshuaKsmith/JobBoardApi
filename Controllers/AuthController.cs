@@ -108,6 +108,7 @@ public class AuthController : ControllerBase
                 Name = profile.Name,
                 Location = profile.Location,
                 IdentityUserId = profile.IdentityUserId,
+                IndustryId = profile.IndustryId,
                 UserName = User.FindFirstValue(ClaimTypes.Name),
                 Email = User.FindFirstValue(ClaimTypes.Email),
                 Roles = roles
