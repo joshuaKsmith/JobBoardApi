@@ -24,8 +24,6 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
     {
         base.OnModelCreating(modelBuilder);
         
-        // Configure relationships
-        
         // UserProfile - IdentityUser relationship (one-to-one)
         modelBuilder.Entity<UserProfile>()
             .HasOne(up => up.IdentityUser)
@@ -73,7 +71,6 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             .HasForeignKey(ja => ja.ApplicantId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // Seed data (keeping your existing seed data, but adding IndustryId to UserProfile)
         modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
         {
             Id = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35",
