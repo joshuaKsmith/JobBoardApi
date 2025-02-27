@@ -12,15 +12,17 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
     public DbSet<CompanyJob> CompanyJobs { get; set; }
     public DbSet<Job> Jobs { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
+    public DbSet<Applicant> Applicants { get; set; }
+    public DbSet<JobApplicant> JobApplicants { get; set; }
+    
     public JobBoardApiDbContext(DbContextOptions<JobBoardApiDbContext> context, IConfiguration config) : base(context)
     {
         _configuration = config;
     }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        // Configure relationships
         
         // UserProfile - IdentityUser relationship (one-to-one)
         modelBuilder.Entity<UserProfile>()
@@ -49,7 +51,26 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             .HasForeignKey(cj => cj.JobId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // Seed data (keeping your existing seed data, but adding IndustryId to UserProfile)
+        // Applicant - IdentityUser relationship (one-to-one)
+        modelBuilder.Entity<Applicant>()
+            .HasOne(a => a.IdentityUser)
+            .WithOne()
+            .HasForeignKey<Applicant>(a => a.IdentityUserId);
+        
+        // JobApplicant - Job relationship (many-to-one)
+        modelBuilder.Entity<JobApplicant>()
+            .HasOne<Job>()
+            .WithMany()
+            .HasForeignKey(ja => ja.JobId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // JobApplicant - Applicant relationship (many-to-one)
+        modelBuilder.Entity<JobApplicant>()
+            .HasOne<Applicant>()
+            .WithMany()
+            .HasForeignKey(ja => ja.ApplicantId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
         {
             Id = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35",

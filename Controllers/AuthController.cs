@@ -118,6 +118,49 @@ public class AuthController : ControllerBase
         return NotFound();
     }
 
+    [HttpPost("registerapplicant")]
+    public async Task<IActionResult> RegisterApplicant(ApplicantRegistrationDTO registration)
+    {
+        var user = new IdentityUser
+        {
+            UserName = registration.UserName,
+            Email = registration.Email
+        };
+
+        var password = Encoding
+            .GetEncoding("iso-8859-1")
+            .GetString(Convert.FromBase64String(registration.Password));
+
+        var result = await _userManager.CreateAsync(user, password);
+        if (result.Succeeded)
+        {
+            _dbContext.Applicants.Add(new Applicant
+            {
+                FirstName = registration.FirstName,
+                LastName = registration.LastName,
+                Address = registration.Address,
+                IdentityUserId = user.Id
+            });
+            _dbContext.SaveChanges();
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity)
+            ).Wait();
+
+            return Ok();
+        }
+        return StatusCode(500);
+    }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegistrationDTO registration)
     {
@@ -144,17 +187,18 @@ public class AuthController : ControllerBase
             _dbContext.SaveChanges();
 
             var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
 
-                };
+            };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(claimsIdentity)).Wait();
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity)
+            ).Wait();
 
             return Ok();
         }
