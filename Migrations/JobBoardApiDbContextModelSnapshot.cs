@@ -22,7 +22,7 @@ namespace JobBoardApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("JobBoardApi.Models.UserProfile", b =>
+            modelBuilder.Entity("JobBoardApi.Models.Applicant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,24 +31,225 @@ namespace JobBoardApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("IdentityUserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityUserId");
+                    b.HasIndex("IdentityUserId")
+                        .IsUnique();
+
+                    b.ToTable("Applicants");
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.CompanyJob", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("CompanyJobs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyId = 1,
+                            JobId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CompanyId = 1,
+                            JobId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CompanyId = 1,
+                            JobId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CompanyId = 1,
+                            JobId = 4
+                        });
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.Industry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Industries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Technology"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Healthcare"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Finance"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Education"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Retail"
+                        });
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.Job", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ClosesDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("PostedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Jobs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClosesDate = new DateTime(2025, 3, 19, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5102),
+                            Description = "Experienced developer for complex web applications",
+                            PostedDate = new DateTime(2025, 2, 17, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5040),
+                            Title = "Senior Software Developer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClosesDate = new DateTime(2025, 3, 14, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5107),
+                            Description = "Skilled nurse for patient care and support",
+                            PostedDate = new DateTime(2025, 2, 12, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5106),
+                            Title = "Registered Nurse"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClosesDate = new DateTime(2025, 3, 22, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5111),
+                            Description = "Analyze financial data and prepare reports",
+                            PostedDate = new DateTime(2025, 2, 20, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5110),
+                            Title = "Financial Analyst"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClosesDate = new DateTime(2025, 3, 24, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5115),
+                            Description = "Entry-level developer for website maintenance",
+                            PostedDate = new DateTime(2025, 2, 22, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5113),
+                            Title = "Junior Web Developer"
+                        });
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.JobApplicant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApplicantId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("JobApplicants");
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.UserProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IndustryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId")
+                        .IsUnique();
+
+                    b.HasIndex("IndustryId");
 
                     b.ToTable("UserProfiles");
 
@@ -56,10 +257,10 @@ namespace JobBoardApi.Migrations
                         new
                         {
                             Id = 1,
-                            Address = "101 Main Street",
-                            FirstName = "Admina",
                             IdentityUserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
-                            LastName = "Strator"
+                            IndustryId = 1,
+                            Location = "Hopkinsville, KY",
+                            Name = "mtg mirage"
                         });
                 });
 
@@ -190,13 +391,13 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b89f40bd-627f-4875-965c-cf29c0a6aff2",
+                            ConcurrencyStamp = "bd915198-3ca3-4327-93ad-9a44cd34bde0",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBLlopTsB/DT51TY5pFGbF61yB1BccsNF5HJzj0hUMNUHG3fMcuF2LuksXDUIqvC8g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIIl3EjgvcFYRVRu1DirAh+o1T3q1P4M3PWb87/08yO/1rw4KBDZg4UgyC+065tdMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ca9b896e-7583-41aa-bf49-1acdc940c340",
+                            SecurityStamp = "c2afc3ad-4222-45a1-940a-599810ddcd91",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });
@@ -290,12 +491,55 @@ namespace JobBoardApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("JobBoardApi.Models.Applicant", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithOne()
+                        .HasForeignKey("JobBoardApi.Models.Applicant", "IdentityUserId");
+
+                    b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.CompanyJob", b =>
+                {
+                    b.HasOne("JobBoardApi.Models.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobBoardApi.Models.Job", null)
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("JobBoardApi.Models.JobApplicant", b =>
+                {
+                    b.HasOne("JobBoardApi.Models.Applicant", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobBoardApi.Models.Job", null)
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("JobBoardApi.Models.UserProfile", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithOne()
+                        .HasForeignKey("JobBoardApi.Models.UserProfile", "IdentityUserId");
+
+                    b.HasOne("JobBoardApi.Models.Industry", null)
                         .WithMany()
-                        .HasForeignKey("IdentityUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("IndustryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("IdentityUser");
