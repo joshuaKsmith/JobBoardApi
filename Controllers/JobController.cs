@@ -65,4 +65,51 @@ public class JobController : ControllerBase
             return StatusCode(500, "An error occurred while retrieving jobs");
         }
     }
+
+
+    [HttpGet("{employerId}")]
+    public IActionResult GetByEmployerId(int employerId)
+    {
+        try
+        {
+            List<CompanyJobDTO> jobs = _dbContext.CompanyJobs
+                .Include(cj => cj.Company)
+                    .ThenInclude(c => c.Industry)
+                .Include(cj => cj.Job)
+                .Where(cj => cj.Company.Id == employerId)
+                .Select(cj => new CompanyJobDTO
+                {
+                    Id = cj.Id,
+                    Company = new UserProfileDTO
+                    {
+                        Id = cj.Company.Id,
+                        Name = cj.Company.Name,
+                        Location = cj.Company.Location,
+                        Industry = new IndustryDTO
+                        {
+                            Id = cj.Company.Industry.Id,
+                            Name = cj.Company.Industry.Name
+                        }
+                    },
+                    Job = new JobDTO
+                    {
+                        Id = cj.Job.Id,
+                        Title = cj.Job.Title,
+                        Description = cj.Job.Description,
+                        PostedDate = cj.Job.PostedDate,
+                        ClosesDate = cj.Job.ClosesDate
+                    }
+                })
+                .ToList();
+            if (jobs == null)
+            {
+                return NotFound();
+            }
+            return Ok(jobs);
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred");
+        }
+    }
 }
