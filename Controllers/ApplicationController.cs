@@ -116,4 +116,54 @@ public class ApplicationController : ControllerBase
         _dbContext.SaveChanges();
         return NoContent();
     }
+
+    [HttpGet("my")]
+    public IActionResult GetMyApplications()
+    {
+        string identityUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+        List<JobApplicantDTO> applications = _dbContext.JobApplicants
+            .Include(ja => ja.Job)
+                .ThenInclude(j => j.UserProfile)
+                .ThenInclude(up => up.Industry)
+            .Include(ja => ja.Applicant)
+            .Where(ja => ja.Applicant.IdentityUserId == identityUserId)
+            .Select(ja => new JobApplicantDTO
+            {
+                Id = ja.Id,
+                Job = new JobDTO
+                {
+                    Id = ja.Job.Id,
+                    Title = ja.Job.Title,
+                    Description = ja.Job.Description,
+                    PostedDate = ja.Job.PostedDate,
+                    ClosesDate = ja.Job.ClosesDate,
+                    Company = new UserProfileDTO
+                    {
+                        Id = ja.Job.UserProfile.Id,
+                        Name = ja.Job.UserProfile.Name,
+                        Location = ja.Job.UserProfile.Location,
+                        Industry = new IndustryDTO
+                        {
+                            Id = ja.Job.UserProfile.Industry.Id,
+                            Name = ja.Job.UserProfile.Industry.Name
+                        }
+                    }
+                },
+                Applicant = new ApplicantDTO
+                {
+                    Id = ja.Applicant.Id,
+                    FirstName = ja.Applicant.FirstName,
+                    LastName = ja.Applicant.LastName,
+                    Address = ja.Applicant.Address
+                }
+            })
+            .ToList();
+        
+        if (applications == null)
+        {
+            return NotFound("Applicant not found");
+        }
+        return Ok(applications)
+    }
 }
