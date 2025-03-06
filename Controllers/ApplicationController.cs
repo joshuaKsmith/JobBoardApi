@@ -24,7 +24,7 @@ public class ApplicationController : ControllerBase
     }
 
     [HttpGet("{jobId}")]
-    public IActionResult GetApplicationsByJobId()
+    public IActionResult GetApplicationsByJobId(int jobId)
     {
         try
         {
@@ -33,6 +33,7 @@ public class ApplicationController : ControllerBase
                     .ThenInclude(j => j.UserProfile)
                     .ThenInclude(up => up.Industry)
                 .Include(ja => ja.Applicant)
+                .Where(ja => ja.Job.Id == jobId)
                 .Select(ja => new JobApplicantDTO
                 {
                     Id = ja.Id,
