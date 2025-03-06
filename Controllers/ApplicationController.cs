@@ -102,4 +102,18 @@ public class ApplicationController : ControllerBase
         _dbContext.SaveChanges();
         return Created($"/api/application/{jobId}", newApplication);
     }
+
+    [HttpDelete("{jobId}")]
+    public IActionResult CancelApplication(int jobId)
+    {
+        JobApplicant applicationToCancel = _dbContext.JobApplicants
+            .SingleOrDefault((ja) => ja.Id == jobId);
+        if (applicationToCancel == null)
+        {
+            return NotFound($"Application not found");
+        }
+        _dbContext.JobApplicants.Remove(applicationToCancel);
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
 }
