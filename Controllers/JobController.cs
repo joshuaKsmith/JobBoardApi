@@ -24,43 +24,71 @@ public class JobController : ControllerBase
         _dbContext = context;
     }
     
-[HttpGet]
-public IActionResult Get()
-{
-    try
+    [HttpGet]
+    public IActionResult Get()
     {
-        List<JobDTO> jobs = _dbContext.Jobs
-            .Include(j => j.UserProfile)
-                .ThenInclude(up => up.Industry)
-            .Select(j => new JobDTO
-            {
-                Id = j.Id,
-                Title = j.Title,
-                Description = j.Description,
-                PostedDate = j.PostedDate,
-                ClosesDate = j.ClosesDate,
-                Company = new UserProfileDTO
+        try
+        {
+            List<JobDTO> jobs = _dbContext.Jobs
+                .Include(j => j.UserProfile)
+                    .ThenInclude(up => up.Industry)
+                .Select(j => new JobDTO
                 {
-                    Id = j.UserProfile.Id,
-                    Name = j.UserProfile.Name,
-                    Location = j.UserProfile.Location,
-                    Industry = new IndustryDTO
+                    Id = j.Id,
+                    Title = j.Title,
+                    Description = j.Description,
+                    PostedDate = j.PostedDate,
+                    ClosesDate = j.ClosesDate,
+                    Company = new UserProfileDTO
                     {
-                        Id = j.UserProfile.Industry.Id,
-                        Name = j.UserProfile.Industry.Name
+                        Id = j.UserProfile.Id,
+                        Name = j.UserProfile.Name,
+                        Location = j.UserProfile.Location,
+                        Industry = new IndustryDTO
+                        {
+                            Id = j.UserProfile.Industry.Id,
+                            Name = j.UserProfile.Industry.Name
+                        }
                     }
-                }
-            })
-            .ToList();
-       
-        return Ok(jobs);
+                })
+                .ToList();
+        
+            return Ok(jobs);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while retrieving jobs: {ex.Message}");
+        }
     }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"An error occurred while retrieving jobs: {ex.Message}");
-    }
-}
 
+    [HttpPut("{id}")]
+    public IActionResult EditJob(int id, Job job)
+    {
+        try
+        {
+            if (id != job.Id)
+            {
+                return BadRequest("JobId mismatch");
+            }
+            Job jobToUpdate = _dbContext.Jobs
+                .SingleOrDefault((j) => j.Id == id);
+            if (jobToUpdate == null)
+            {
+                return NotFound($"Job with Id = {id} not found");
+            }
+            jobToUpdate.Title = job.Title;
+            jobToUpdate.Description = job.Description;
+            jobToUpdate.ClosesDate = job.ClosesDate;
+            _dbContext.SaveChanges();
+            return NoContent();
+
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+            "Error updating data");
+        }
+    }
 
     [HttpGet("my")]
     public IActionResult GetMyJobs()
