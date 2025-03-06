@@ -170,33 +170,33 @@ namespace JobBoardApi.Migrations
                         new
                         {
                             Id = 1,
-                            ClosesDate = new DateTime(2025, 3, 19, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5102),
+                            ClosesDate = new DateTime(2025, 3, 26, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3030),
                             Description = "Experienced developer for complex web applications",
-                            PostedDate = new DateTime(2025, 2, 17, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5040),
+                            PostedDate = new DateTime(2025, 2, 24, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(2975),
                             Title = "Senior Software Developer"
                         },
                         new
                         {
                             Id = 2,
-                            ClosesDate = new DateTime(2025, 3, 14, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5107),
+                            ClosesDate = new DateTime(2025, 3, 21, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3035),
                             Description = "Skilled nurse for patient care and support",
-                            PostedDate = new DateTime(2025, 2, 12, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5106),
+                            PostedDate = new DateTime(2025, 2, 19, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3034),
                             Title = "Registered Nurse"
                         },
                         new
                         {
                             Id = 3,
-                            ClosesDate = new DateTime(2025, 3, 22, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5111),
+                            ClosesDate = new DateTime(2025, 3, 29, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3039),
                             Description = "Analyze financial data and prepare reports",
-                            PostedDate = new DateTime(2025, 2, 20, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5110),
+                            PostedDate = new DateTime(2025, 2, 27, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3038),
                             Title = "Financial Analyst"
                         },
                         new
                         {
                             Id = 4,
-                            ClosesDate = new DateTime(2025, 3, 24, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5115),
+                            ClosesDate = new DateTime(2025, 3, 31, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3043),
                             Description = "Entry-level developer for website maintenance",
-                            PostedDate = new DateTime(2025, 2, 22, 10, 42, 50, 862, DateTimeKind.Local).AddTicks(5113),
+                            PostedDate = new DateTime(2025, 3, 1, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3041),
                             Title = "Junior Web Developer"
                         });
                 });
@@ -391,13 +391,13 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd915198-3ca3-4327-93ad-9a44cd34bde0",
+                            ConcurrencyStamp = "643b3d31-31ed-4c77-8513-4cd0decb7f69",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEIIl3EjgvcFYRVRu1DirAh+o1T3q1P4M3PWb87/08yO/1rw4KBDZg4UgyC+065tdMQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBEbPPTD0hel51NNpuQW0Hw7WQDoh6aNNo3039B5DbRxUpj9PmCvmj4HRqS1L4bjhQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c2afc3ad-4222-45a1-940a-599810ddcd91",
+                            SecurityStamp = "324f081e-e6e2-434b-9be9-61605470249b",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });
@@ -502,17 +502,21 @@ namespace JobBoardApi.Migrations
 
             modelBuilder.Entity("JobBoardApi.Models.CompanyJob", b =>
                 {
-                    b.HasOne("JobBoardApi.Models.UserProfile", null)
+                    b.HasOne("JobBoardApi.Models.UserProfile", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("JobBoardApi.Models.Job", null)
+                    b.HasOne("JobBoardApi.Models.Job", "Job")
                         .WithMany()
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("JobBoardApi.Models.JobApplicant", b =>
@@ -536,13 +540,15 @@ namespace JobBoardApi.Migrations
                         .WithOne()
                         .HasForeignKey("JobBoardApi.Models.UserProfile", "IdentityUserId");
 
-                    b.HasOne("JobBoardApi.Models.Industry", null)
+                    b.HasOne("JobBoardApi.Models.Industry", "Industry")
                         .WithMany()
                         .HasForeignKey("IndustryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("IdentityUser");
+
+                    b.Navigation("Industry");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

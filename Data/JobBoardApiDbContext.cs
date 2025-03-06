@@ -32,21 +32,21 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             
         // UserProfile - Industry relationship (many-to-one)
         modelBuilder.Entity<UserProfile>()
-            .HasOne<Industry>()
+            .HasOne(up => up.Industry)
             .WithMany()
             .HasForeignKey(up => up.IndustryId)
             .OnDelete(DeleteBehavior.Restrict);
             
         // CompanyJob - UserProfile relationship (many-to-one)
         modelBuilder.Entity<CompanyJob>()
-            .HasOne<UserProfile>()
+            .HasOne(cj => cj.Company)
             .WithMany()
             .HasForeignKey(cj => cj.CompanyId)
             .OnDelete(DeleteBehavior.Cascade);
             
         // CompanyJob - Job relationship (many-to-one)
         modelBuilder.Entity<CompanyJob>()
-            .HasOne<Job>()
+            .HasOne(cj => cj.Job)
             .WithMany()
             .HasForeignKey(cj => cj.JobId)
             .OnDelete(DeleteBehavior.Cascade);
