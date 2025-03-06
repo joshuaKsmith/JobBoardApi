@@ -10,4 +10,5 @@ public class UserProfile
     public string IdentityUserId { get; set; }
     public IdentityUser IdentityUser { get; set; }
     public int IndustryId { get; set; }
+    public Industry Industry { get; set; }
 }

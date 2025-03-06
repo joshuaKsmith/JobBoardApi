@@ -7,4 +7,6 @@ public class Job
     public string Description { get; set; }
     public DateTime PostedDate { get; set; }
     public DateTime ClosesDate { get; set; }
+    public int UserProfileId { get; set; }
+    public UserProfile UserProfile { get; set; }
 }
