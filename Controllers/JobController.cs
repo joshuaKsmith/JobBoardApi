@@ -62,6 +62,58 @@ public IActionResult Get()
 }
 
 
+    [HttpGet("my")]
+    public IActionResult GetMyJobs()
+    {
+        try
+        {
+            string identityUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            
+            UserProfile userProfile = _dbContext.UserProfiles
+                .SingleOrDefault(up => up.IdentityUserId == identityUserId);
+
+            if (userProfile == null)
+            {
+                return NotFound("User profile not found");
+            }
+
+        List<JobDTO> jobs = _dbContext.Jobs
+            .Include(j => j.UserProfile)
+                .ThenInclude(up => up.Industry)
+            .Where(j => j.UserProfile.Id == userProfile.Id)
+            .Select(j => new JobDTO
+            {
+                Id = j.Id,
+                Title = j.Title,
+                Description = j.Description,
+                PostedDate = j.PostedDate,
+                ClosesDate = j.ClosesDate,
+                Company = new UserProfileDTO
+                {
+                    Id = j.UserProfile.Id,
+                    Name = j.UserProfile.Name,
+                    Location = j.UserProfile.Location,
+                    Industry = new IndustryDTO
+                    {
+                        Id = j.UserProfile.Industry.Id,
+                        Name = j.UserProfile.Industry.Name
+                    }
+                }
+            })
+            .ToList();
+
+            if (jobs == null)
+            {
+                return NotFound();
+            }
+            return Ok(jobs);
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred");
+        }
+    }
+
     [HttpGet("{employerId}")]
     public IActionResult GetByEmployerId(int employerId)
     {
