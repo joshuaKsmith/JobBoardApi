@@ -112,4 +112,18 @@ public class JobController : ControllerBase
             return StatusCode(500, "An error occurred");
         }
     }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteJob(int id)
+    {
+        Job jobToDelete = _dbContext.Jobs
+            .SingleOrDefault((j) => j.Id == id);
+        if (jobToDelete == null)
+        {
+            return NotFound($"Job with Id = {id} not found");
+        }
+        _dbContext.Jobs.Remove(jobToDelete);
+        _dbContext.SaveChanges();
+        return NoContent();
+    }
 }
