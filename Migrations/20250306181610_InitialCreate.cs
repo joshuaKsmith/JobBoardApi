@@ -67,22 +67,6 @@ namespace JobBoardApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jobs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    PostedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ClosesDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Jobs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -237,6 +221,29 @@ namespace JobBoardApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Jobs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    PostedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ClosesDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UserProfileId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_UserProfiles_UserProfileId",
+                        column: x => x.UserProfileId,
+                        principalTable: "UserProfiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "JobApplicants",
                 columns: table => new
                 {
@@ -262,32 +269,6 @@ namespace JobBoardApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "CompanyJobs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CompanyId = table.Column<int>(type: "integer", nullable: false),
-                    JobId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompanyJobs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CompanyJobs_Jobs_JobId",
-                        column: x => x.JobId,
-                        principalTable: "Jobs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CompanyJobs_UserProfiles_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "UserProfiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -296,7 +277,7 @@ namespace JobBoardApi.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "643b3d31-31ed-4c77-8513-4cd0decb7f69", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEBEbPPTD0hel51NNpuQW0Hw7WQDoh6aNNo3039B5DbRxUpj9PmCvmj4HRqS1L4bjhQ==", null, false, "324f081e-e6e2-434b-9be9-61605470249b", false, "Administrator" });
+                values: new object[] { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "ba75846f-081a-41a1-ac0d-e8e5a5b81189", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAENOQhhBaNTGiA9elSPllgo6fQJmrtg1AMv+NbzAlYezGFwfKBkK981lRGEFOpMhIpQ==", null, false, "2a5ff5a6-2081-4e57-a9c4-8fc83b990de3", false, "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "Industries",
@@ -311,17 +292,6 @@ namespace JobBoardApi.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Jobs",
-                columns: new[] { "Id", "ClosesDate", "Description", "PostedDate", "Title" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2025, 3, 26, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3030), "Experienced developer for complex web applications", new DateTime(2025, 2, 24, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(2975), "Senior Software Developer" },
-                    { 2, new DateTime(2025, 3, 21, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3035), "Skilled nurse for patient care and support", new DateTime(2025, 2, 19, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3034), "Registered Nurse" },
-                    { 3, new DateTime(2025, 3, 29, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3039), "Analyze financial data and prepare reports", new DateTime(2025, 2, 27, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3038), "Financial Analyst" },
-                    { 4, new DateTime(2025, 3, 31, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3043), "Entry-level developer for website maintenance", new DateTime(2025, 3, 1, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3041), "Junior Web Developer" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f" });
@@ -332,14 +302,14 @@ namespace JobBoardApi.Migrations
                 values: new object[] { 1, "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 1, "Hopkinsville, KY", "mtg mirage" });
 
             migrationBuilder.InsertData(
-                table: "CompanyJobs",
-                columns: new[] { "Id", "CompanyId", "JobId" },
+                table: "Jobs",
+                columns: new[] { "Id", "ClosesDate", "Description", "PostedDate", "Title", "UserProfileId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 1, 3 },
-                    { 4, 1, 4 }
+                    { 1, new DateTime(2025, 3, 26, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8088), "Experienced developer for complex web applications", new DateTime(2025, 2, 24, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8041), "Senior Software Developer", 1 },
+                    { 2, new DateTime(2025, 3, 21, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8092), "Skilled nurse for patient care and support", new DateTime(2025, 2, 19, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8091), "Registered Nurse", 1 },
+                    { 3, new DateTime(2025, 3, 29, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8095), "Analyze financial data and prepare reports", new DateTime(2025, 2, 27, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8094), "Financial Analyst", 1 },
+                    { 4, new DateTime(2025, 3, 31, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8097), "Entry-level developer for website maintenance", new DateTime(2025, 3, 1, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8096), "Junior Web Developer", 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -386,16 +356,6 @@ namespace JobBoardApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CompanyJobs_CompanyId",
-                table: "CompanyJobs",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompanyJobs_JobId",
-                table: "CompanyJobs",
-                column: "JobId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_JobApplicants_ApplicantId",
                 table: "JobApplicants",
                 column: "ApplicantId");
@@ -404,6 +364,11 @@ namespace JobBoardApi.Migrations
                 name: "IX_JobApplicants_JobId",
                 table: "JobApplicants",
                 column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_UserProfileId",
+                table: "Jobs",
+                column: "UserProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_IdentityUserId",
@@ -436,16 +401,10 @@ namespace JobBoardApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CompanyJobs");
-
-            migrationBuilder.DropTable(
                 name: "JobApplicants");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "Applicants");
@@ -454,10 +413,13 @@ namespace JobBoardApi.Migrations
                 name: "Jobs");
 
             migrationBuilder.DropTable(
-                name: "Industries");
+                name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Industries");
         }
     }
 }

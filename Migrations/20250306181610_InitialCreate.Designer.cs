@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobBoardApi.Migrations
 {
     [DbContext(typeof(JobBoardApiDbContext))]
-    [Migration("20250306173606_InitialCreate")]
+    [Migration("20250306181610_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,55 +51,6 @@ namespace JobBoardApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Applicants");
-                });
-
-            modelBuilder.Entity("JobBoardApi.Models.CompanyJob", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("JobId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("JobId");
-
-                    b.ToTable("CompanyJobs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CompanyId = 1,
-                            JobId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CompanyId = 1,
-                            JobId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CompanyId = 1,
-                            JobId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CompanyId = 1,
-                            JobId = 4
-                        });
                 });
 
             modelBuilder.Entity("JobBoardApi.Models.Industry", b =>
@@ -165,7 +116,12 @@ namespace JobBoardApi.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
+                    b.Property<int>("UserProfileId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Jobs");
 
@@ -173,34 +129,38 @@ namespace JobBoardApi.Migrations
                         new
                         {
                             Id = 1,
-                            ClosesDate = new DateTime(2025, 3, 26, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3030),
+                            ClosesDate = new DateTime(2025, 3, 26, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8088),
                             Description = "Experienced developer for complex web applications",
-                            PostedDate = new DateTime(2025, 2, 24, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(2975),
-                            Title = "Senior Software Developer"
+                            PostedDate = new DateTime(2025, 2, 24, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8041),
+                            Title = "Senior Software Developer",
+                            UserProfileId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClosesDate = new DateTime(2025, 3, 21, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3035),
+                            ClosesDate = new DateTime(2025, 3, 21, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8092),
                             Description = "Skilled nurse for patient care and support",
-                            PostedDate = new DateTime(2025, 2, 19, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3034),
-                            Title = "Registered Nurse"
+                            PostedDate = new DateTime(2025, 2, 19, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8091),
+                            Title = "Registered Nurse",
+                            UserProfileId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ClosesDate = new DateTime(2025, 3, 29, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3039),
+                            ClosesDate = new DateTime(2025, 3, 29, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8095),
                             Description = "Analyze financial data and prepare reports",
-                            PostedDate = new DateTime(2025, 2, 27, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3038),
-                            Title = "Financial Analyst"
+                            PostedDate = new DateTime(2025, 2, 27, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8094),
+                            Title = "Financial Analyst",
+                            UserProfileId = 1
                         },
                         new
                         {
                             Id = 4,
-                            ClosesDate = new DateTime(2025, 3, 31, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3043),
+                            ClosesDate = new DateTime(2025, 3, 31, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8097),
                             Description = "Entry-level developer for website maintenance",
-                            PostedDate = new DateTime(2025, 3, 1, 11, 36, 6, 373, DateTimeKind.Local).AddTicks(3041),
-                            Title = "Junior Web Developer"
+                            PostedDate = new DateTime(2025, 3, 1, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8096),
+                            Title = "Junior Web Developer",
+                            UserProfileId = 1
                         });
                 });
 
@@ -394,13 +354,13 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "643b3d31-31ed-4c77-8513-4cd0decb7f69",
+                            ConcurrencyStamp = "ba75846f-081a-41a1-ac0d-e8e5a5b81189",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBEbPPTD0hel51NNpuQW0Hw7WQDoh6aNNo3039B5DbRxUpj9PmCvmj4HRqS1L4bjhQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENOQhhBaNTGiA9elSPllgo6fQJmrtg1AMv+NbzAlYezGFwfKBkK981lRGEFOpMhIpQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "324f081e-e6e2-434b-9be9-61605470249b",
+                            SecurityStamp = "2a5ff5a6-2081-4e57-a9c4-8fc83b990de3",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });
@@ -503,23 +463,15 @@ namespace JobBoardApi.Migrations
                     b.Navigation("IdentityUser");
                 });
 
-            modelBuilder.Entity("JobBoardApi.Models.CompanyJob", b =>
+            modelBuilder.Entity("JobBoardApi.Models.Job", b =>
                 {
-                    b.HasOne("JobBoardApi.Models.UserProfile", "Company")
+                    b.HasOne("JobBoardApi.Models.UserProfile", "UserProfile")
                         .WithMany()
-                        .HasForeignKey("CompanyId")
+                        .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("JobBoardApi.Models.Job", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("Job");
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("JobBoardApi.Models.JobApplicant", b =>

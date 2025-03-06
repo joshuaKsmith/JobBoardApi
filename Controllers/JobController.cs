@@ -24,83 +24,74 @@ public class JobController : ControllerBase
         _dbContext = context;
     }
     
-    [HttpGet]
-    public IActionResult Get()
+[HttpGet]
+public IActionResult Get()
+{
+    try
     {
-        try
-        {
-            List<CompanyJobDTO> jobs = _dbContext.CompanyJobs
-                .Include(cj => cj.Job)
-                .Include(cj => cj.Company)
-                    .ThenInclude(c => c.Industry)
-                .Select(cj => new CompanyJobDTO
+        List<JobDTO> jobs = _dbContext.Jobs
+            .Include(j => j.UserProfile)
+                .ThenInclude(up => up.Industry)
+            .Select(j => new JobDTO
+            {
+                Id = j.Id,
+                Title = j.Title,
+                Description = j.Description,
+                PostedDate = j.PostedDate,
+                ClosesDate = j.ClosesDate,
+                Company = new UserProfileDTO
                 {
-                    Id = cj.Id,
-                    Company = new UserProfileDTO
+                    Id = j.UserProfile.Id,
+                    Name = j.UserProfile.Name,
+                    Location = j.UserProfile.Location,
+                    Industry = new IndustryDTO
                     {
-                        Id = cj.Company.Id,
-                        Name = cj.Company.Name,
-                        Location = cj.Company.Location,
-                        Industry = new IndustryDTO
-                        {
-                            Id = cj.Company.Industry.Id,
-                            Name = cj.Company.Industry.Name
-                        }
-                    },
-                    Job = new JobDTO
-                    {
-                        Id = cj.Job.Id,
-                        Title = cj.Job.Title,
-                        Description = cj.Job.Description,
-                        PostedDate = cj.Job.PostedDate,
-                        ClosesDate = cj.Job.ClosesDate
+                        Id = j.UserProfile.Industry.Id,
+                        Name = j.UserProfile.Industry.Name
                     }
-                })
-                .ToList();
-            
-            return Ok(jobs);
-        }
-        catch
-        {
-            return StatusCode(500, "An error occurred while retrieving jobs");
-        }
+                }
+            })
+            .ToList();
+       
+        return Ok(jobs);
     }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"An error occurred while retrieving jobs: {ex.Message}");
+    }
+}
 
 
     [HttpGet("{employerId}")]
     public IActionResult GetByEmployerId(int employerId)
     {
-        try
-        {
-            List<CompanyJobDTO> jobs = _dbContext.CompanyJobs
-                .Include(cj => cj.Company)
-                    .ThenInclude(c => c.Industry)
-                .Include(cj => cj.Job)
-                .Where(cj => cj.Company.Id == employerId)
-                .Select(cj => new CompanyJobDTO
+    try
+    {
+        List<JobDTO> jobs = _dbContext.Jobs
+            .Include(j => j.UserProfile)
+                .ThenInclude(up => up.Industry)
+            .Where(j => j.UserProfile.Id == employerId)
+            .Select(j => new JobDTO
+            {
+                Id = j.Id,
+                Title = j.Title,
+                Description = j.Description,
+                PostedDate = j.PostedDate,
+                ClosesDate = j.ClosesDate,
+                Company = new UserProfileDTO
                 {
-                    Id = cj.Id,
-                    Company = new UserProfileDTO
+                    Id = j.UserProfile.Id,
+                    Name = j.UserProfile.Name,
+                    Location = j.UserProfile.Location,
+                    Industry = new IndustryDTO
                     {
-                        Id = cj.Company.Id,
-                        Name = cj.Company.Name,
-                        Location = cj.Company.Location,
-                        Industry = new IndustryDTO
-                        {
-                            Id = cj.Company.Industry.Id,
-                            Name = cj.Company.Industry.Name
-                        }
-                    },
-                    Job = new JobDTO
-                    {
-                        Id = cj.Job.Id,
-                        Title = cj.Job.Title,
-                        Description = cj.Job.Description,
-                        PostedDate = cj.Job.PostedDate,
-                        ClosesDate = cj.Job.ClosesDate
+                        Id = j.UserProfile.Industry.Id,
+                        Name = j.UserProfile.Industry.Name
                     }
-                })
-                .ToList();
+                }
+            })
+            .ToList();
+
             if (jobs == null)
             {
                 return NotFound();
@@ -125,5 +116,15 @@ public class JobController : ControllerBase
         _dbContext.Jobs.Remove(jobToDelete);
         _dbContext.SaveChanges();
         return NoContent();
+    }
+
+    [HttpPost]
+    public IActionResult CreateJob(Job job)
+    {
+        job.PostedDate = DateTime.Now;        
+
+        _dbContext.Jobs.Add(job);
+        _dbContext.SaveChanges();
+        return Created($"/api/job/{job.Id}", job);
     }
 }
