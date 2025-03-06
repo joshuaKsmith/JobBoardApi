@@ -8,11 +8,13 @@ using System.Text;
 using JobBoardApi.Models;
 using JobBoardApi.Models.DTOs;
 using JobBoardApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobBoardApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class JobController : ControllerBase
 {
     private JobBoardApiDbContext _dbContext;
@@ -22,4 +24,45 @@ public class JobController : ControllerBase
         _dbContext = context;
     }
     
+    [HttpGet]
+    public IActionResult Get()
+    {
+        try
+        {
+            List<CompanyJobDTO> jobs = _dbContext.CompanyJobs
+                .Include(cj => cj.Job)
+                .Include(cj => cj.Company)
+                    .ThenInclude(c => c.Industry)
+                .Select(cj => new CompanyJobDTO
+                {
+                    Id = cj.Id,
+                    Company = new UserProfileDTO
+                    {
+                        Id = cj.Company.Id,
+                        Name = cj.Company.Name,
+                        Location = cj.Company.Location,
+                        Industry = new IndustryDTO
+                        {
+                            Id = cj.Company.Industry.Id,
+                            Name = cj.Company.Industry.Name
+                        }
+                    },
+                    Job = new JobDTO
+                    {
+                        Id = cj.Job.Id,
+                        Title = cj.Job.Title,
+                        Description = cj.Job.Description,
+                        PostedDate = cj.Job.PostedDate,
+                        ClosesDate = cj.Job.ClosesDate
+                    }
+                })
+                .ToList();
+            
+            return Ok(jobs);
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred while retrieving jobs");
+        }
+    }
 }
