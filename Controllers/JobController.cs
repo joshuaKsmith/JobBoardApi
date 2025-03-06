@@ -61,6 +61,35 @@ public class JobController : ControllerBase
         }
     }
 
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        try
+        {
+            JobDTO job = _dbContext.Jobs
+                .Where(j => j.Id == id)
+                .Select(j => new JobDTO
+                {
+                    Id = j.Id,
+                    Title = j.Title,
+                    Description = j.Description,
+                    PostedDate = j.PostedDate,
+                    ClosesDate = j.ClosesDate
+                })
+                .FirstOrDefault();
+
+            if (job == null)
+            {
+                return NotFound();
+            }
+            return Ok(job);
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred");
+        }
+    }
+
     [HttpPut("{id}")]
     public IActionResult EditJob(int id, Job job)
     {
@@ -109,48 +138,6 @@ public class JobController : ControllerBase
             .Include(j => j.UserProfile)
                 .ThenInclude(up => up.Industry)
             .Where(j => j.UserProfile.Id == userProfile.Id)
-            .Select(j => new JobDTO
-            {
-                Id = j.Id,
-                Title = j.Title,
-                Description = j.Description,
-                PostedDate = j.PostedDate,
-                ClosesDate = j.ClosesDate,
-                Company = new UserProfileDTO
-                {
-                    Id = j.UserProfile.Id,
-                    Name = j.UserProfile.Name,
-                    Location = j.UserProfile.Location,
-                    Industry = new IndustryDTO
-                    {
-                        Id = j.UserProfile.Industry.Id,
-                        Name = j.UserProfile.Industry.Name
-                    }
-                }
-            })
-            .ToList();
-
-            if (jobs == null)
-            {
-                return NotFound();
-            }
-            return Ok(jobs);
-        }
-        catch
-        {
-            return StatusCode(500, "An error occurred");
-        }
-    }
-
-    [HttpGet("{employerId}")]
-    public IActionResult GetByEmployerId(int employerId)
-    {
-    try
-    {
-        List<JobDTO> jobs = _dbContext.Jobs
-            .Include(j => j.UserProfile)
-                .ThenInclude(up => up.Industry)
-            .Where(j => j.UserProfile.Id == employerId)
             .Select(j => new JobDTO
             {
                 Id = j.Id,
