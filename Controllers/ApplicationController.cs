@@ -79,7 +79,7 @@ public class ApplicationController : ControllerBase
         }
     }
     
-    [HttpPost("jobId")]
+    [HttpPost("{jobId}")]
     public IActionResult NewApplication(int jobId)
     {
         string identityUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -164,6 +164,6 @@ public class ApplicationController : ControllerBase
         {
             return NotFound("Applicant not found");
         }
-        return Ok(applications)
+        return Ok(applications);
     }
 }
