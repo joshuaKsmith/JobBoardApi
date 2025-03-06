@@ -277,7 +277,7 @@ namespace JobBoardApi.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "ba75846f-081a-41a1-ac0d-e8e5a5b81189", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAENOQhhBaNTGiA9elSPllgo6fQJmrtg1AMv+NbzAlYezGFwfKBkK981lRGEFOpMhIpQ==", null, false, "2a5ff5a6-2081-4e57-a9c4-8fc83b990de3", false, "Administrator" });
+                values: new object[] { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "6691a445-cd8e-4da8-999f-43a2d59a8484", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEHPyr66kFtAB93yCed+ulxynOp5qBYQGkTa7wlJrtx59twulml7jhP5Jbj0OS8B5yA==", null, false, "104f7384-a541-4b53-86eb-5898c2440174", false, "Administrator" });
 
             migrationBuilder.InsertData(
                 table: "Industries",
@@ -306,10 +306,10 @@ namespace JobBoardApi.Migrations
                 columns: new[] { "Id", "ClosesDate", "Description", "PostedDate", "Title", "UserProfileId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 26, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8088), "Experienced developer for complex web applications", new DateTime(2025, 2, 24, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8041), "Senior Software Developer", 1 },
-                    { 2, new DateTime(2025, 3, 21, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8092), "Skilled nurse for patient care and support", new DateTime(2025, 2, 19, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8091), "Registered Nurse", 1 },
-                    { 3, new DateTime(2025, 3, 29, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8095), "Analyze financial data and prepare reports", new DateTime(2025, 2, 27, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8094), "Financial Analyst", 1 },
-                    { 4, new DateTime(2025, 3, 31, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8097), "Entry-level developer for website maintenance", new DateTime(2025, 3, 1, 12, 16, 10, 166, DateTimeKind.Local).AddTicks(8096), "Junior Web Developer", 1 }
+                    { 1, new DateTime(2025, 3, 26, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8665), "Experienced developer for complex web applications", new DateTime(2025, 2, 24, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8619), "Senior Software Developer", 1 },
+                    { 2, new DateTime(2025, 3, 21, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8669), "Skilled nurse for patient care and support", new DateTime(2025, 2, 19, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8668), "Registered Nurse", 1 },
+                    { 3, new DateTime(2025, 3, 29, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8672), "Analyze financial data and prepare reports", new DateTime(2025, 2, 27, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8671), "Financial Analyst", 1 },
+                    { 4, new DateTime(2025, 3, 31, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8675), "Entry-level developer for website maintenance", new DateTime(2025, 3, 1, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8674), "Junior Web Developer", 1 }
                 });
 
             migrationBuilder.CreateIndex(

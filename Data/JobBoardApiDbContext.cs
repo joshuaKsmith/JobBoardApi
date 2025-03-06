@@ -51,14 +51,14 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
         
         // JobApplicant - Job relationship (many-to-one)
         modelBuilder.Entity<JobApplicant>()
-            .HasOne<Job>()
+            .HasOne(ja => ja.Job)
             .WithMany()
             .HasForeignKey(ja => ja.JobId)
             .OnDelete(DeleteBehavior.Cascade);
         
         // JobApplicant - Applicant relationship (many-to-one)
         modelBuilder.Entity<JobApplicant>()
-            .HasOne<Applicant>()
+            .HasOne(ja => ja.Applicant)
             .WithMany()
             .HasForeignKey(ja => ja.ApplicantId)
             .OnDelete(DeleteBehavior.Cascade);

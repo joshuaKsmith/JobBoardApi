@@ -79,4 +79,27 @@ public class ApplicationController : ControllerBase
         }
     }
     
+    [HttpPost("jobId")]
+    public IActionResult NewApplication(int jobId)
+    {
+        string identityUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+        Applicant applicant = _dbContext.Applicants
+            .SingleOrDefault(a => a.IdentityUserId == identityUserId);
+        
+        if (applicant == null)
+        {
+            return NotFound("Applicant not found");
+        }
+
+        JobApplicant newApplication = new JobApplicant
+        {
+            JobId = jobId,
+            ApplicantId = applicant.Id
+        };
+
+        _dbContext.JobApplicants.Add(newApplication);
+        _dbContext.SaveChanges();
+        return Created($"/api/application/{jobId}", newApplication);
+    }
 }
