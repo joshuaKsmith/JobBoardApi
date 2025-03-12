@@ -71,13 +71,23 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             NormalizedName = "admin"
         });
         
-        modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
-        {
-            Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
-            UserName = "Administrator",
-            Email = "admina@strator.comx",
-            PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
-        });
+        modelBuilder.Entity<IdentityUser>().HasData(
+            new IdentityUser
+            {
+                Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
+                UserName = "Administrator",
+                Email = "admina@strator.comx",
+                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
+            },
+            new IdentityUser
+            {
+                Id = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
+                UserName = "smoothRick",
+                Email = "test@test.com",
+                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["DefaultPassword"] ?? "password") // Use a default password or from config
+            }
+
+        );
         
         modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
         {
@@ -100,6 +110,22 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             new Industry { Id = 3, Name = "Finance" },
             new Industry { Id = 4, Name = "Education" },
             new Industry { Id = 5, Name = "Retail" }
+        );
+
+        modelBuilder.Entity<JobApplicant>().HasData(
+            new JobApplicant { Id = 1, JobId = 1, ApplicantId = 1 },
+            new JobApplicant { Id = 2, JobId = 2, ApplicantId = 1 }
+        );
+
+        modelBuilder.Entity<Applicant>().HasData(
+            new Applicant
+            {
+                Id = 1,
+                FirstName = "Smooth",
+                LastName = "Rick",
+                Address = "100 Road St",
+                IdentityUserId = "e9b45e9d-4484-4556-a2eb-f7d996219df3"
+            }
         );
        
         modelBuilder.Entity<Job>().HasData(

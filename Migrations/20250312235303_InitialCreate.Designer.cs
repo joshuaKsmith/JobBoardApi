@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobBoardApi.Migrations
 {
     [DbContext(typeof(JobBoardApiDbContext))]
-    [Migration("20250306191218_InitialCreate")]
+    [Migration("20250312235303_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,6 +51,16 @@ namespace JobBoardApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Applicants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "100 Road St",
+                            FirstName = "Smooth",
+                            IdentityUserId = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
+                            LastName = "Rick"
+                        });
                 });
 
             modelBuilder.Entity("JobBoardApi.Models.Industry", b =>
@@ -129,36 +139,36 @@ namespace JobBoardApi.Migrations
                         new
                         {
                             Id = 1,
-                            ClosesDate = new DateTime(2025, 3, 26, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8665),
+                            ClosesDate = new DateTime(2025, 4, 1, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6311),
                             Description = "Experienced developer for complex web applications",
-                            PostedDate = new DateTime(2025, 2, 24, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8619),
+                            PostedDate = new DateTime(2025, 3, 2, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6256),
                             Title = "Senior Software Developer",
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClosesDate = new DateTime(2025, 3, 21, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8669),
+                            ClosesDate = new DateTime(2025, 3, 27, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6315),
                             Description = "Skilled nurse for patient care and support",
-                            PostedDate = new DateTime(2025, 2, 19, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8668),
+                            PostedDate = new DateTime(2025, 2, 25, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6314),
                             Title = "Registered Nurse",
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ClosesDate = new DateTime(2025, 3, 29, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8672),
+                            ClosesDate = new DateTime(2025, 4, 4, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6319),
                             Description = "Analyze financial data and prepare reports",
-                            PostedDate = new DateTime(2025, 2, 27, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8671),
+                            PostedDate = new DateTime(2025, 3, 5, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6318),
                             Title = "Financial Analyst",
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 4,
-                            ClosesDate = new DateTime(2025, 3, 31, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8675),
+                            ClosesDate = new DateTime(2025, 4, 6, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6322),
                             Description = "Entry-level developer for website maintenance",
-                            PostedDate = new DateTime(2025, 3, 1, 13, 12, 18, 168, DateTimeKind.Local).AddTicks(8674),
+                            PostedDate = new DateTime(2025, 3, 7, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6321),
                             Title = "Junior Web Developer",
                             UserProfileId = 1
                         });
@@ -185,6 +195,20 @@ namespace JobBoardApi.Migrations
                     b.HasIndex("JobId");
 
                     b.ToTable("JobApplicants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApplicantId = 1,
+                            JobId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApplicantId = 1,
+                            JobId = 2
+                        });
                 });
 
             modelBuilder.Entity("JobBoardApi.Models.UserProfile", b =>
@@ -354,15 +378,29 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6691a445-cd8e-4da8-999f-43a2d59a8484",
+                            ConcurrencyStamp = "89b3bcd0-b77d-4dc0-bd78-47f044721e3b",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEHPyr66kFtAB93yCed+ulxynOp5qBYQGkTa7wlJrtx59twulml7jhP5Jbj0OS8B5yA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMp77xTz/OWOpNVSNsdfj75InSuSmzot+LLyFRjt67ofHWO//SYUWsMoGvlUFhK0zQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "104f7384-a541-4b53-86eb-5898c2440174",
+                            SecurityStamp = "4cf1e7e5-58fa-4e47-91bd-3cbebaa7661f",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
+                        },
+                        new
+                        {
+                            Id = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4f8f2738-181f-47cf-9d6d-d858fb6e2f8a",
+                            Email = "test@test.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAEAKpeggi4JSVSs63FxC8WGwsT7Vnp8bJrC9BpOwQ7GO2bkUfuznDukqCG/v5JH9vIg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "6099f906-a332-4866-81eb-3c7b7cdeffcf",
+                            TwoFactorEnabled = false,
+                            UserName = "smoothRick"
                         });
                 });
 
