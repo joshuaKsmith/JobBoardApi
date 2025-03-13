@@ -9,7 +9,6 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
 {
     private readonly IConfiguration _configuration;
     public DbSet<Industry> Industries { get; set; }
-    public DbSet<CompanyJob> CompanyJobs { get; set; }
     public DbSet<Job> Jobs { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Applicant> Applicants { get; set; }
@@ -32,23 +31,16 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             
         // UserProfile - Industry relationship (many-to-one)
         modelBuilder.Entity<UserProfile>()
-            .HasOne<Industry>()
+            .HasOne(up => up.Industry)
             .WithMany()
             .HasForeignKey(up => up.IndustryId)
             .OnDelete(DeleteBehavior.Restrict);
             
-        // CompanyJob - UserProfile relationship (many-to-one)
-        modelBuilder.Entity<CompanyJob>()
-            .HasOne<UserProfile>()
+        // Job - UserProfile relationship (many-to-one)
+        modelBuilder.Entity<Job>()
+            .HasOne(j => j.UserProfile)
             .WithMany()
-            .HasForeignKey(cj => cj.CompanyId)
-            .OnDelete(DeleteBehavior.Cascade);
-            
-        // CompanyJob - Job relationship (many-to-one)
-        modelBuilder.Entity<CompanyJob>()
-            .HasOne<Job>()
-            .WithMany()
-            .HasForeignKey(cj => cj.JobId)
+            .HasForeignKey(j => j.UserProfileId)
             .OnDelete(DeleteBehavior.Cascade);
         
         // Applicant - IdentityUser relationship (one-to-one)
@@ -59,18 +51,19 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
         
         // JobApplicant - Job relationship (many-to-one)
         modelBuilder.Entity<JobApplicant>()
-            .HasOne<Job>()
+            .HasOne(ja => ja.Job)
             .WithMany()
             .HasForeignKey(ja => ja.JobId)
             .OnDelete(DeleteBehavior.Cascade);
         
         // JobApplicant - Applicant relationship (many-to-one)
         modelBuilder.Entity<JobApplicant>()
-            .HasOne<Applicant>()
+            .HasOne(ja => ja.Applicant)
             .WithMany()
             .HasForeignKey(ja => ja.ApplicantId)
             .OnDelete(DeleteBehavior.Cascade);
         
+        // Your seed data (update as needed)
         modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
         {
             Id = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35",
@@ -78,13 +71,23 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             NormalizedName = "admin"
         });
         
-        modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
-        {
-            Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
-            UserName = "Administrator",
-            Email = "admina@strator.comx",
-            PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
-        });
+        modelBuilder.Entity<IdentityUser>().HasData(
+            new IdentityUser
+            {
+                Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
+                UserName = "Administrator",
+                Email = "admina@strator.comx",
+                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
+            },
+            new IdentityUser
+            {
+                Id = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
+                UserName = "smoothRick",
+                Email = "test@test.com",
+                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["DefaultPassword"] ?? "password") // Use a default password or from config
+            }
+
+        );
         
         modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
         {
@@ -108,6 +111,22 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
             new Industry { Id = 4, Name = "Education" },
             new Industry { Id = 5, Name = "Retail" }
         );
+
+        modelBuilder.Entity<JobApplicant>().HasData(
+            new JobApplicant { Id = 1, JobId = 1, ApplicantId = 1 },
+            new JobApplicant { Id = 2, JobId = 2, ApplicantId = 1 }
+        );
+
+        modelBuilder.Entity<Applicant>().HasData(
+            new Applicant
+            {
+                Id = 1,
+                FirstName = "Smooth",
+                LastName = "Rick",
+                Address = "100 Road St",
+                IdentityUserId = "e9b45e9d-4484-4556-a2eb-f7d996219df3"
+            }
+        );
        
         modelBuilder.Entity<Job>().HasData(
             new Job
@@ -116,7 +135,8 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
                 Title = "Senior Software Developer",
                 Description = "Experienced developer for complex web applications",
                 PostedDate = DateTime.Now.AddDays(-10),
-                ClosesDate = DateTime.Now.AddDays(20)
+                ClosesDate = DateTime.Now.AddDays(20),
+                UserProfileId = 1
             },
             new Job
             {
@@ -124,7 +144,8 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
                 Title = "Registered Nurse",
                 Description = "Skilled nurse for patient care and support",
                 PostedDate = DateTime.Now.AddDays(-15),
-                ClosesDate = DateTime.Now.AddDays(15)
+                ClosesDate = DateTime.Now.AddDays(15),
+                UserProfileId = 1
             },
             new Job
             {
@@ -132,7 +153,8 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
                 Title = "Financial Analyst",
                 Description = "Analyze financial data and prepare reports",
                 PostedDate = DateTime.Now.AddDays(-7),
-                ClosesDate = DateTime.Now.AddDays(23)
+                ClosesDate = DateTime.Now.AddDays(23),
+                UserProfileId = 1
             },
             new Job
             {
@@ -140,15 +162,9 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
                 Title = "Junior Web Developer",
                 Description = "Entry-level developer for website maintenance",
                 PostedDate = DateTime.Now.AddDays(-5),
-                ClosesDate = DateTime.Now.AddDays(25)
+                ClosesDate = DateTime.Now.AddDays(25),
+                UserProfileId = 1
             }
-        );
-       
-        modelBuilder.Entity<CompanyJob>().HasData(
-            new CompanyJob { Id = 1, CompanyId = 1, JobId = 1 },
-            new CompanyJob { Id = 2, CompanyId = 1, JobId = 2 },
-            new CompanyJob { Id = 3, CompanyId = 1, JobId = 3 },
-            new CompanyJob { Id = 4, CompanyId = 1, JobId = 4 }
         );
     }
 }

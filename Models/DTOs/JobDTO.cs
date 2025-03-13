@@ -7,4 +7,5 @@ public class JobDTO
     public string Description { get; set; }
     public DateTime PostedDate { get; set; }
     public DateTime ClosesDate { get; set; }
+    public UserProfileDTO Company { get; set; }
 }
