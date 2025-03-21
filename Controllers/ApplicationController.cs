@@ -61,7 +61,8 @@ public class ApplicationController : ControllerBase
                         Id = ja.Applicant.Id,
                         FirstName = ja.Applicant.FirstName,
                         LastName = ja.Applicant.LastName,
-                        Address = ja.Applicant.Address
+                        Address = ja.Applicant.Address,
+                        Email = ja.Applicant.Email
                     }
                 })
                 .ToList();
