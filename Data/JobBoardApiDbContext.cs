@@ -124,7 +124,8 @@ public class JobBoardApiDbContext : IdentityDbContext<IdentityUser>
                 FirstName = "Smooth",
                 LastName = "Rick",
                 Address = "100 Road St",
-                IdentityUserId = "e9b45e9d-4484-4556-a2eb-f7d996219df3"
+                IdentityUserId = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
+                Email = "test@test.com"
             }
         );
        
