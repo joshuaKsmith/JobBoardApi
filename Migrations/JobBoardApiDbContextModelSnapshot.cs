@@ -33,6 +33,9 @@ namespace JobBoardApi.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
@@ -54,6 +57,7 @@ namespace JobBoardApi.Migrations
                         {
                             Id = 1,
                             Address = "100 Road St",
+                            Email = "test@test.com",
                             FirstName = "Smooth",
                             IdentityUserId = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
                             LastName = "Rick"
@@ -136,36 +140,36 @@ namespace JobBoardApi.Migrations
                         new
                         {
                             Id = 1,
-                            ClosesDate = new DateTime(2025, 4, 1, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6311),
+                            ClosesDate = new DateTime(2025, 4, 9, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5123),
                             Description = "Experienced developer for complex web applications",
-                            PostedDate = new DateTime(2025, 3, 2, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6256),
+                            PostedDate = new DateTime(2025, 3, 10, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(4931),
                             Title = "Senior Software Developer",
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClosesDate = new DateTime(2025, 3, 27, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6315),
+                            ClosesDate = new DateTime(2025, 4, 4, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5129),
                             Description = "Skilled nurse for patient care and support",
-                            PostedDate = new DateTime(2025, 2, 25, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6314),
+                            PostedDate = new DateTime(2025, 3, 5, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5127),
                             Title = "Registered Nurse",
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ClosesDate = new DateTime(2025, 4, 4, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6319),
+                            ClosesDate = new DateTime(2025, 4, 12, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5133),
                             Description = "Analyze financial data and prepare reports",
-                            PostedDate = new DateTime(2025, 3, 5, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6318),
+                            PostedDate = new DateTime(2025, 3, 13, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5132),
                             Title = "Financial Analyst",
                             UserProfileId = 1
                         },
                         new
                         {
                             Id = 4,
-                            ClosesDate = new DateTime(2025, 4, 6, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6322),
+                            ClosesDate = new DateTime(2025, 4, 14, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5138),
                             Description = "Entry-level developer for website maintenance",
-                            PostedDate = new DateTime(2025, 3, 7, 18, 53, 2, 863, DateTimeKind.Local).AddTicks(6321),
+                            PostedDate = new DateTime(2025, 3, 15, 20, 36, 12, 782, DateTimeKind.Local).AddTicks(5136),
                             Title = "Junior Web Developer",
                             UserProfileId = 1
                         });
@@ -375,13 +379,13 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "89b3bcd0-b77d-4dc0-bd78-47f044721e3b",
+                            ConcurrencyStamp = "89e279ba-e613-4a85-a390-56328ff0ab45",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEMp77xTz/OWOpNVSNsdfj75InSuSmzot+LLyFRjt67ofHWO//SYUWsMoGvlUFhK0zQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC8/flabT8rN8eHQAH4cNACOfQy0jgmCgSkdUf2NKUxO0wEyxFHNlVhUL+WPmgmwig==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4cf1e7e5-58fa-4e47-91bd-3cbebaa7661f",
+                            SecurityStamp = "bc1fc9f2-36dc-4b2e-8d86-0b7be1d5ff34",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         },
@@ -389,13 +393,13 @@ namespace JobBoardApi.Migrations
                         {
                             Id = "e9b45e9d-4484-4556-a2eb-f7d996219df3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f8f2738-181f-47cf-9d6d-d858fb6e2f8a",
+                            ConcurrencyStamp = "be38e0de-2506-437b-a4fc-67f4328f4b9d",
                             Email = "test@test.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEAKpeggi4JSVSs63FxC8WGwsT7Vnp8bJrC9BpOwQ7GO2bkUfuznDukqCG/v5JH9vIg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMiJfFfOjDiLR58F/BK1i+KTFfExPHP0Sy5l3p978wCLrUo6p2W6/kzEyBe1n04S+Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6099f906-a332-4866-81eb-3c7b7cdeffcf",
+                            SecurityStamp = "8643a807-68a6-4d44-bd3c-cb587617dba5",
                             TwoFactorEnabled = false,
                             UserName = "smoothRick"
                         });
